@@ -1,5 +1,7 @@
 import Foundation
-import MuniControleCore
+import MuniControleInterop
+import OrchivisteKitContracts
+import OrchivisteKitInterop
 
 @main
 struct MuniControleCLI {
@@ -30,15 +32,15 @@ struct MuniControleCLI {
 
             let requestURL = URL(fileURLWithPath: requestPath)
             let resultURL = URL(fileURLWithPath: resultPath)
+            let request = try ToolInteropService.loadRequest(from: requestURL)
+            let result = CanonicalRunAdapter.execute(request: request)
 
-            let requestData = try Data(contentsOf: requestURL)
-            let request = try JSONDecoder().decode(ToolRequest.self, from: requestData)
-            let result = MuniControleRunner.runPlaceholder(request: request)
+            try ToolInteropService.writeResult(result, to: resultURL)
+            printToolResult(result)
 
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-            let resultData = try encoder.encode(result)
-            try resultData.write(to: resultURL, options: .atomic)
+            if result.status == .failed {
+                exit(1)
+            }
         } catch {
             FileHandle.standardError.write(Data("error: \(error)\n".utf8))
             exit(1)
@@ -52,11 +54,27 @@ struct MuniControleCLI {
         return args[index + 1]
     }
 
+    private static func printToolResult(_ result: ToolResult) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+
+        if let data = try? encoder.encode(result), let text = String(data: data, encoding: .utf8) {
+            print(text)
+            return
+        }
+
+        print("{\"status\":\"failed\",\"summary\":\"Unable to encode ToolResult.\"}")
+    }
+
     private static let usage = """
 Usage:
   muni-controle-cli --help
   muni-controle-cli --version
   muni-controle-cli run --request /path/request.json --result /path/result.json
+
+Notes:
+  - V1 est deterministic et en lecture seule.
+  - Le controle qualite exploite le texte fourni et, optionnellement, les rapports amont.
 """
 }
 
