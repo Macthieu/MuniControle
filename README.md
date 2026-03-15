@@ -4,7 +4,7 @@ MuniControle est l'outil specialise correspondant dans la suite documentaire mun
 
 ## Mission
 
-Ce depot fournit le socle executable minimal (Core + CLI) pour l'integration V1 via CLI JSON local.
+Ce depot fournit un controle qualite documentaire deterministic en lecture seule, integre a la suite via le contrat canonique OrchivisteKit.
 
 ## Positionnement
 
@@ -29,7 +29,26 @@ Valeurs autorisees de `status`:
 - `cancelled`
 - `not_implemented`
 
-Le squelette actuel retourne `not_implemented` tant que la logique metier n'est pas implementee.
+Statuts emis sur le chemin nominal V1:
+
+- `succeeded`
+- `needs_review`
+- `failed`
+
+Parametres canoniques supportes:
+
+- `text` (string) ou `source_path` (string)
+- `metadata_report_path` (string, optionnel)
+- `preclassification_report_path` (string, optionnel)
+- `analysis_report_path` (string, optionnel)
+- `min_quality_score` (number, 0...100, optionnel, defaut 70)
+- `output_report_path` (string, optionnel)
+
+Comportement V1:
+
+- outil strictement en lecture seule
+- controle deterministic sans IA non deterministe
+- rapport JSON optionnel exporte si `output_report_path` est fourni
 
 ## Build et tests
 

@@ -7,9 +7,12 @@ Le format s'inspire de Keep a Changelog et le projet suit Semantic Versioning.
 ## [Unreleased]
 
 ### Added
-- Bootstrap Swift 6 / macOS 14 (Package, Core, CLI, Tests, CI).
-- Contrat CLI JSON V1 minimal avec placeholder `not_implemented`.
-- Politique de securite de base (`SECURITY.md`).
+- Module `MuniControleInterop` base sur `OrchivisteKitContracts`.
+- Runner V1 deterministic de controle qualite (lecture seule) avec score, gates et findings.
+- CLI canonique active: `muni-controle-cli run --request <file> --result <file>`.
+- Export optionnel de rapport JSON via `output_report_path`.
+- Tests unitaires et interop couvrant les chemins `succeeded`, `needs_review` et `failed`.
+- Versionnage de `Package.resolved` avec pin `OrchivisteKit` `0.2.0`.
 
 ## [0.1.0] - 2026-03-14
 
