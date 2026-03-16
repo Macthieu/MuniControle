@@ -6,6 +6,8 @@ Le format s'inspire de Keep a Changelog et le projet suit Semantic Versioning.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-03-16
+
 ### Added
 - Module `MuniControleInterop` base sur `OrchivisteKitContracts`.
 - Runner V1 deterministic de controle qualite (lecture seule) avec score, gates et findings.

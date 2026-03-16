@@ -11,6 +11,11 @@ Ce depot fournit un controle qualite documentaire deterministic en lecture seule
 - Outil autonome executables seul.
 - Integrable dans Orchiviste (cockpit/hub) via contrat commun CLI JSON.
 
+## Version
+
+- Version de release: `0.2.0`
+- Tag Git: `v0.2.0`
+
 ## Contrat CLI JSON V1
 
 Commande:
